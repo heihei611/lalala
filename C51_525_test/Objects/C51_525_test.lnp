@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\C51_newyaoyao.obj" 
+TO ".\Objects\C51_525_test" 
+PRINT(".\Listings\C51_525_test.m51") RAMSIZE(256) 

@@ -1,0 +1,720 @@
+C51 COMPILER V9.57.0.0   C51_TEST                                                          06/10/2024 22:26:36 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE C51_TEST
+OBJECT MODULE PLACED IN .\Objects\C51_test.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE C51_test.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\
+                    -C51_test.lst) TABS(2) OBJECT(.\Objects\C51_test.obj)
+
+line level    source
+
+   1          //// _nop_()延时一个机器周期
+   2          //#include <reg52.h>
+   3          //#include <intrins.h>
+   4          //sbit PWM = P3^7;  //设定PWM输出的I/O端口
+   5          //unsigned char count = 0;
+   6          //unsigned char timer1 ;
+   7          
+   8          
+   9          //unsigned int Counter_L = 0;  
+  10          //unsigned int Counter_R = 0;  
+  11          //unsigned int Compare_L = 20; 
+  12          //unsigned int Compare_R = 20;
+  13          
+  14          ////sbit PWM_L=P2^0;  
+  15          
+  16          ////sbit IN1=P2^1;//电机驱动引脚
+  17          ////sbit IN2=P2^2;
+  18          ////sbit IN3=P2^3;   
+  19          ////sbit IN4=P2^4;
+  20          
+  21          ////sbit PWM_R=P2^5;
+  22          
+  23          
+  24          //sbit PWM_L=P1^0;  
+  25          
+  26          //sbit IN1=P1^1;//电机驱动引脚
+  27          //sbit IN2=P1^2;
+  28          //sbit IN3=P1^3;   
+  29          //sbit IN4=P1^4;
+  30          
+  31          //sbit PWM_R=P1^5;
+  32          // void servo(int angle);
+  33          // void go(int compare_left,int compare_right)//设置占空比
+  34          //{
+  35          //    Compare_L=compare_left;
+  36          //    Compare_R=compare_right;
+  37          //    IN1 = 1; 
+  38          //  IN2 = 0;
+  39          //  IN3 = 1; 
+  40          //  IN4 = 0;
+  41          //}
+  42          //void back(int compare_left,int compare_right)//设置占空比
+  43          //{
+  44          //    Compare_L=compare_left;
+  45          //    Compare_R=compare_right;
+  46          //    IN1 = 0; 
+  47          //  IN2 = 1;
+  48          //  IN3 = 0; 
+  49          //  IN4 = 1;
+  50          //}
+  51          //void stop()
+  52          //{
+  53          //        IN1 = 0; 
+  54          //    IN2 = 0;
+C51 COMPILER V9.57.0.0   C51_TEST                                                          06/10/2024 22:26:36 PAGE 2   
+
+  55          //    IN3 = 0; 
+  56          //    IN4 = 0;
+  57          
+  58          //}
+  59          //void forward()
+  60          //{
+  61          //      IN1 = 1; 
+  62          //    IN2 = 0;
+  63          //    IN3 = 1;
+  64          //    IN4 = 0;
+  65          //}
+  66          
+  67          //void backward()
+  68          //{
+  69          //      IN1 = 0; 
+  70          //    IN2 = 1;
+  71          //    IN3 = 0; 
+  72          //    IN4 = 1;
+  73          //}
+  74          ///*
+  75          //对于180°舵机
+  76          //t = 0.5ms——————-舵机会转动 0 ° 
+  77          //t = 1.0ms——————-舵机会转动 45°
+  78          //t = 1.5ms——————-舵机会转动 90°
+  79          //t = 2.0ms——————-舵机会转动 135°
+  80          //t = 2.5ms——————-舵机会转动180
+  81          //*/
+  82          
+  83          
+  84          // 
+  85          ///*延时程序*/
+  86          //void delay1s(void)   //误差 0us
+  87          //{
+  88          //    unsigned char a,b,c;
+  89          //    for(c=167;c>0;c--)
+  90          //        for(b=171;b>0;b--)
+  91          //            for(a=16;a>0;a--);
+  92          //    _nop_();  //if Keil,require use intrins.h
+  93          //}
+  94          // 
+  95          
+  96          //void Timer1_Init()  
+  97          //{  
+  98          //    TMOD &= 0xF0; 
+  99          //    TMOD |= 0x01; 
+ 100          //  
+ 101          //    TH1 = 0xFF;   
+ 102          //    TL1 = 0xA4;   
+ 103          //  
+ 104          //    ET1 = 1;       
+ 105          //    TR1 = 1;     
+ 106          //    EA = 1;         
+ 107          //}  
+ 108          //  
+ 109          //void Timer1_PWM() interrupt 3 using 1 
+ 110          //{  
+ 111          //    TH1 = 0xFF;   
+ 112          //    TL1 = 0xA4;  
+ 113          //  
+ 114          //    Counter_L++;  
+ 115          //    Counter_R++;  
+ 116          //    
+C51 COMPILER V9.57.0.0   C51_TEST                                                          06/10/2024 22:26:36 PAGE 3   
+
+ 117          //    Counter_L %= 100;   
+ 118          //    Counter_R %= 100;  
+ 119          //    
+ 120          //    if(Counter_L < Compare_L)      
+ 121          //    {  
+ 122          //        PWM_L = 1;  
+ 123          //    }  
+ 124          //    else                  
+ 125          //    {  
+ 126          //        PWM_L = 0;  
+ 127          //    }  
+ 128          //  
+ 129          //    if(Counter_R < Compare_R)      
+ 130          //    {  
+ 131          //        PWM_R = 1;  
+ 132          //    }  
+ 133          //    else                  
+ 134          //    {  
+ 135          //        PWM_R = 0;  
+ 136          //    }  
+ 137          //        
+ 138          //}
+ 139          
+ 140          ///*定时器T0初始化*/
+ 141          //void Timer0_Init()           
+ 142          //{
+ 143          //    TMOD &= 0x00;
+ 144          //    TMOD |= 0x01; //定时器T0设置成方式1
+ 145          // 
+ 146          //    TH0 = 0xff;   //定时常数 0.1ms 晶振为11.0592MHz
+ 147          //    TL0 = 0xa4;
+ 148          // 
+ 149          //    ET0 = 1;      
+ 150          //    TR0 = 1; 
+ 151          //  EA=1; 
+ 152          //  }
+ 153          //  
+ 154          ///*T0中断初始化*/
+ 155          //void Time0_Init() interrupt 1 
+ 156          //{
+ 157          //  TR0 = 0; 
+ 158          //  TH0 = 0xff; // 0.1ms
+ 159          //  TL0 = 0xa4;
+ 160          //  
+ 161          //  if(count <= timer1) //5==0° 15==90°
+ 162          //  { 
+ 163          //    PWM = 1; 
+ 164          //  }
+ 165          //  else 
+ 166          //  { 
+ 167          //    PWM = 0; 
+ 168          //  }
+ 169          //  count++;
+ 170          //  if (count >= 200) //T = 20ms清零
+ 171          //  { 
+ 172          //    count = 0; 
+ 173          //  }
+ 174          //  TR0 = 1; //开启T0
+ 175          //}
+ 176          //void main()
+ 177          //{
+ 178          //  Timer0_Init();
+C51 COMPILER V9.57.0.0   C51_TEST                                                          06/10/2024 22:26:36 PAGE 4   
+
+ 179          //  while(1)
+ 180          //  {
+ 181          //    servo(3);
+ 182          //    servo(-3);
+ 183          //    go(20,70);
+ 184          
+ 185          ////    timer1 =15;//舵机旋转90°
+ 186          ////    count=0;
+ 187          ////    delay1s();
+ 188          //  }
+ 189          //}
+ 190          
+ 191          //void servo(int angle)
+ 192          //{   timer1 =10-angle;//舵机恢复到0°的位置
+ 193          //    count=0;//让定时器重新计数
+ 194          //    delay1s();}
+ 195          
+ 196          
+ 197          
+ 198          //#include <REG52.H>
+ 199          //#include "Timer0.h"
+ 200          //#include "Delay.h"
+ 201          //#include "ultrwave.h"
+ 202          //unsigned int Counter_L,Compare_L,Counter_R,Compare_R;
+ 203          //unsigned int i=0;
+ 204          //int t;
+ 205          
+ 206          
+ 207          //sbit Moter_R=P1^0;  //电机使能
+ 208          
+ 209          //sbit IN1=P1^1;   //右电机正反转
+ 210          //sbit IN2=P1^2;
+ 211          //sbit IN3=P1^3;   //左电机正反转
+ 212          //sbit IN4=P1^4;
+ 213          
+ 214          //sbit Moter_L=P1^5;
+ 215          
+ 216          //sbit duoji=P2^0;
+ 217          
+ 218          //sbit HWSM_L=P2^2;  //红外线探测模块
+ 219          //sbit HWSM_R=P2^1;
+ 220          ////
+ 221          //sbit PWM=P2^0;
+ 222          //sbit hongwai1=P0^7;
+ 223          //sbit hongwai2=P0^6;
+ 224          
+ 225          //int count=0;        
+ 226          //int c=0;          
+ 227          //                   
+ 228          // 
+ 229          //int th;
+ 230          //int tl;
+ 231          //int co;
+ 232          // 
+ 233          //// 假设PWM频率为1KHz，定时器0的计数周期为1us
+ 234          //#define PWM_FREQ 1000  // PWM频率1KHz
+ 235          //#define PWM_PERIOD 1000  // 1ms，即1000us
+ 236          
+ 237          //// 以下是PWM初始化和中断服务函数的示例
+ 238          //void Timer0InitPWM(void) {
+ 239          //    TMOD &= 0x0F;  // 清除TMOD寄存器高四位，配置定时器模式
+ 240          //    TMOD |= 0x10;  // 设置定时器0为模式1（16位定时器）
+C51 COMPILER V9.57.0.0   C51_TEST                                                          06/10/2024 22:26:36 PAGE 5   
+
+ 241          //    TH0 = (65536 - PWM_PERIOD) / 2;  // 设置定时器高8位初值
+ 242          //    TL0 = (65536 - PWM_PERIOD) / 2;  // 设置定时器低8位初值
+ 243          //    ET0 = 1;  // 开启定时器0中断
+ 244          //    EA = 1;   // 开启总中断
+ 245          //    TR0 = 1;  // 启动定时器0
+ 246          //}
+ 247          
+ 248          //void Timer0_ISR(void) interrupt 1 using 1 {  // 使用定时器0中断1
+ 249          //    static unsigned int pwm_counter = 0;
+ 250          //    static unsigned int pwm_duty = 0;  // 占空比，取值范围0-PWM_PERIOD
+ 251          
+ 252          //    // 定时器溢出后重新装载初值
+ 253          //    TH0 = (65536 - PWM_PERIOD) / 2;
+ 254          //    TL0 = (65536 - PWM_PERIOD) / 2;
+ 255          
+ 256          //    // 判断是否到达PWM周期结束
+ 257          //    if (++pwm_counter >= PWM_PERIOD) {
+ 258          //        pwm_counter = 0;  // 重置计数器
+ 259          //        PWM = 0;  // 将PWM信号拉低
+ 260          //    }
+ 261          
+ 262          //    // 判断是否到达PWM占空比设定的高电平时间
+ 263          //    if (pwm_counter > pwm_duty) {
+ 264          //        PWM = 1;  // 将PWM信号拉高
+ 265          //    }
+ 266          //}
+ 267          
+ 268          //void DelayMs(unsigned int ms) {
+ 269          //    unsigned int i, j;
+ 270          //    for (i = 0; i < ms; i++)
+ 271          //        for (j = 0; j < 120; j++);
+ 272          //}
+ 273          
+ 274          //void stop()
+ 275          //{
+ 276          //    IN1 = 0; // 假设低电平为正转
+ 277          //    IN2 = 0;
+ 278          //    IN3 = 0; // 假设低电平为正转
+ 279          //    IN4 = 0;
+ 280          //    Moter_R = 1; // 使右电机使能
+ 281          //    Moter_L = 1; // 使左电机使能
+ 282          //    DelayMs(100000);
+ 283          //}
+ 284          //void forward()
+ 285          //{
+ 286          //    IN1 = 1; // 假设低电平为正转
+ 287          //    IN2 = 0;
+ 288          //    IN3 = 0; // 假设低电平为正转
+ 289          //    IN4 = 1;
+ 290          
+ 291          //    // 使能电机
+ 292          //    Moter_R = 1; // 使右电机使能
+ 293          //    Moter_L = 1; // 使左电机使能
+ 294          //    
+ 295          //}
+ 296          
+ 297          //void backward()
+ 298          //{
+ 299          //    IN1 = 0; // 假设低电平为正转
+ 300          //    IN2 = 1;
+ 301          //    IN3 = 1; // 假设低电平为正转
+ 302          //    IN4 = 0;
+C51 COMPILER V9.57.0.0   C51_TEST                                                          06/10/2024 22:26:36 PAGE 6   
+
+ 303          
+ 304          //    // 使能电机
+ 305          //    Moter_R = 1; // 使右电机使能
+ 306          //    Moter_L = 1; // 使左电机使能
+ 307          //}
+ 308          
+ 309          //void turn()
+ 310          //{
+ 311          //    IN1 = 0; // 假设低电平为正转
+ 312          //    IN2 = 1;
+ 313          //    IN3 = 0; // 假设低电平为正转
+ 314          //    IN4 = 1;
+ 315          //  
+ 316          //    Moter_R = 1; // 使右电机使能
+ 317          //    Moter_L = 1; // 使左电机使能
+ 318          //    DelayMs(1000);
+ 319          //    forward();
+ 320          //    DelayMs(10000);
+ 321          //  
+ 322          //}
+ 323          //void Pattern1()
+ 324          //{
+ 325          
+ 326          //    IN1 = 0; // 假设低电平为正转
+ 327          //    IN2 = 0;
+ 328          //    IN3 = 0; // 假设低电平为正转
+ 329          //    IN4 = 0;
+ 330          //    DelayMs(100000);
+ 331          //    backward();
+ 332          //    
+ 333          //}
+ 334          //void main() {
+ 335          
+ 336          //  
+ 337          //    // 主循环
+ 338          //  while(1)
+ 339          //  {
+ 340          //          forward();
+ 341          ////          DelayMs(1000);
+ 342          ////          if (hongwai1 == 1) 
+ 343          ////          {
+ 344          ////                forward();
+ 345          ////          }
+ 346          ////          else if(hongwai1 == 0)
+ 347          ////          {
+ 348          ////             turn();
+ 349          ////             
+ 350          ////          }
+ 351          //          
+ 352          //        } 
+ 353          //}
+ 354          
+ 355          
+ 356          
+ 357          //#include <intrins.h>
+ 358          //#include <REG52.H>
+ 359          //sbit PWM = P3^7;  //设定PWM输出的I/O端口
+ 360          //unsigned char count = 0;
+ 361          //unsigned char timer1 ;
+ 362          
+ 363          //unsigned int i=0;
+ 364          //int t;
+C51 COMPILER V9.57.0.0   C51_TEST                                                          06/10/2024 22:26:36 PAGE 7   
+
+ 365          
+ 366          
+ 367          //sbit PWM_L = P1^0;  
+ 368          //  
+ 369          //sbit IN1=P1^1;   //右电机正反转
+ 370          //sbit IN3=P1^2;   //左电机正反转
+ 371          //sbit IN2=P1^3;
+ 372          //sbit IN4=P1^4;
+ 373          
+ 374          //sbit PWM_R = P1^5;
+ 375          
+ 376          
+ 377          //sbit duoji=P2^0;
+ 378          
+ 379          //sbit hongwai1=P0^7;
+ 380          //sbit hongwai2=P0^6;
+ 381          
+ 382          
+ 383          //unsigned int Counter_L = 0;  
+ 384          //unsigned int Counter_R = 0;  
+ 385          //unsigned int Compare_L = 20; 
+ 386          //unsigned int Compare_R = 20;  
+ 387          //void delay1s(void)   //误差 0us
+ 388          //{
+ 389          //    unsigned char a,b,c;
+ 390          //    for(c=167;c>0;c--)
+ 391          //        for(b=171;b>0;b--)
+ 392          //            for(a=16;a>0;a--);
+ 393          //    _nop_();  //if Keil,require use intrins.h
+ 394          //}
+ 395          // 
+ 396          ///*定时器T0初始化*/
+ 397          //void Timer0_Init()           
+ 398          //{
+ 399          //    TMOD &= 0x00;
+ 400          //    TMOD |= 0x01; //定时器T0设置成方式1
+ 401          // 
+ 402          //    TH0 = 0xff;   //定时常数 0.1ms 晶振为11.0592MHz
+ 403          //    TL0 = 0xa4;
+ 404          // 
+ 405          //    ET0 = 1;      
+ 406          //    TR0 = 1; 
+ 407          //  EA=1; 
+ 408          //  }
+ 409          //  
+ 410          ///*T0中断初始化*/
+ 411          //void Time0_Init() interrupt 1 
+ 412          //{
+ 413          //  TR0 = 0; 
+ 414          //  TH0 = 0xff; // 0.1ms
+ 415          //  TL0 = 0xa4;
+ 416          //  
+ 417          //  if(count <= timer1) //5==0° 15==90°
+ 418          //  { 
+ 419          //    PWM = 1; 
+ 420          //  }
+ 421          //  else 
+ 422          //  { 
+ 423          //    PWM = 0; 
+ 424          //  }
+ 425          //  count++;
+ 426          //  if (count >= 200) //T = 20ms清零
+C51 COMPILER V9.57.0.0   C51_TEST                                                          06/10/2024 22:26:36 PAGE 8   
+
+ 427          //  { 
+ 428          //    count = 0; 
+ 429          //  }
+ 430          //  TR0 = 1; //开启T0
+ 431          //}
+ 432          
+ 433          //void Timer1_Init() // PWM??????  
+ 434          //{  
+ 435          //    TMOD &= 0xF0; 
+ 436          //    TMOD |= 0x01; 
+ 437          //  
+ 438          //    TH1 = 0xFF; 
+ 439          //    TL1 = 0xA4;  
+ 440          //  
+ 441          //    ET1 = 1;    
+ 442          //    TR1 = 1;      
+ 443          //    EA = 1;       
+ 444          //}  
+ 445          //  
+ 446          //void Timer1_PWM() interrupt 3 using 1 
+ 447          //{  
+ 448          //    TH1 = 0xFF;  
+ 449          //    TL1 = 0xA4;  
+ 450          //  
+ 451          //    Counter_L++;  
+ 452          //    Counter_R++;  
+ 453          //  
+ 454          //    Counter_L %= 100; 
+ 455          //    Counter_R %= 100;  
+ 456          //  
+ 457          //    if(Counter_L < Compare_L)      
+ 458          //    {  
+ 459          //        PWM_L = 1;  
+ 460          //    }  
+ 461          //    else                  
+ 462          //    {  
+ 463          //        PWM_L = 0;  
+ 464          //    }  
+ 465          //  
+ 466          //    if(Counter_R < Compare_R)      
+ 467          //    {  
+ 468          //        PWM_R = 1;  
+ 469          //    }  
+ 470          //    else                  
+ 471          //    {  
+ 472          //        PWM_R = 0;  
+ 473          //    }  
+ 474          //}  
+ 475          //  
+ 476          
+ 477          //void DelayMs(unsigned int ms) {
+ 478          //    unsigned int i, j;
+ 479          //    for (i = 0; i < ms; i++)
+ 480          //        for (j = 0; j < 120; j++);
+ 481          //}
+ 482          
+ 483          
+ 484          // void go(int compare_left,int compare_right)//设置占空比
+ 485          //{
+ 486          //   Compare_L=compare_left;
+ 487          //   Compare_R=compare_right;
+ 488          //   IN1 = 1; 
+C51 COMPILER V9.57.0.0   C51_TEST                                                          06/10/2024 22:26:36 PAGE 9   
+
+ 489          //   IN2 = 0;
+ 490          //   IN3 = 0; 
+ 491          //   IN4 = 1;
+ 492          //}
+ 493          
+ 494          // void back(int compare_left,int compare_right)//设置占空比
+ 495          //{
+ 496          //   Compare_L=compare_left;
+ 497          //   Compare_R=compare_right;
+ 498          //   IN1 = 0; 
+ 499          //   IN2 = 1;
+ 500          //   IN3 = 1; 
+ 501          //   IN4 = 0;
+ 502          //}
+ 503          
+ 504          
+ 505          //void main() 
+ 506          //{
+ 507          
+ 508          //  Timer1_Init();
+ 509          //  Timer0_Init();
+ 510          //    // 主循环
+ 511          //  while(1)
+ 512          //  {
+ 513          //    go(10,70);
+ 514          //    timer1 =5;//舵机恢复到0°的位置
+ 515          //    count=0;//让定时器重新计数
+ 516          //    delay1s();
+ 517          //    timer1 =15;//舵机旋转90°
+ 518          //    count=0;
+ 519          //    delay1s();
+ 520          //  }
+ 521          //  
+ 522          //  
+ 523          
+ 524          //}
+ 525          
+ 526          
+ 527          // _nop_()延时一个机器周期
+ 528          #include <reg52.h>
+ 529          #include <intrins.h>
+ 530          sbit PWM = P3^7;  //设定PWM输出的I/O端口
+ 531          unsigned char count = 0;
+ 532          unsigned char timer1 ;
+ 533          
+ 534          /*******调速部分**/
+ 535          unsigned char count_L = 0;
+ 536          unsigned char count_R = 0;
+ 537          unsigned char compare_L = 20;
+ 538          unsigned char compare_R = 20;
+ 539          sbit PWM1 = P1^0;  //设定PWM输出的I/O端口
+ 540          
+ 541          sbit IN1=P1^1;   //右电机正反转
+ 542          sbit IN3=P1^2;   //左电机正反转
+ 543          sbit IN2=P1^3;
+ 544          sbit IN4=P1^4;
+ 545          
+ 546          sbit PWM2 = P1^5;
+ 547          /******调速部分****/
+ 548          
+ 549          /*
+ 550          对于180°舵机
+C51 COMPILER V9.57.0.0   C51_TEST                                                          06/10/2024 22:26:36 PAGE 10  
+
+ 551          t = 0.5ms——————-舵机会转动 0 ° 
+ 552          t = 1.0ms——————-舵机会转动 45°
+ 553          t = 1.5ms——————-舵机会转动 90°
+ 554          t = 2.0ms——————-舵机会转动 135°
+ 555          t = 2.5ms——————-舵机会转动180
+ 556          */
+ 557          
+ 558           
+ 559           
+ 560          /*延时程序*/
+ 561          void delay1s(void)   //误差 0us
+ 562          {
+ 563   1          unsigned char a,b,c;
+ 564   1          for(c=167;c>0;c--)
+ 565   1              for(b=171;b>0;b--)
+ 566   1                  for(a=16;a>0;a--);
+ 567   1          _nop_();  //if Keil,require use intrins.h
+ 568   1      }
+ 569           
+ 570          /*定时器T0初始化*/
+ 571          void Timer0_Init()           
+ 572          {
+ 573   1          TMOD &= 0x00;
+ 574   1          TMOD |= 0x01; //定时器T0设置成方式1
+ 575   1       
+ 576   1          TH0 = 0xff;   //定时常数 0.1ms 晶振为11.0592MHz
+ 577   1          TL0 = 0xa4;
+ 578   1       
+ 579   1          ET0 = 1;      
+ 580   1          TR0 = 1; 
+ 581   1        EA=1; 
+ 582   1        }
+ 583            
+ 584          /*T0中断初始化*/
+ 585          void Time0_Init() interrupt 1 
+ 586          {
+ 587   1        TR0 = 0; 
+ 588   1        TH0 = 0xff; // 0.1ms
+ 589   1        TL0 = 0xa4;
+ 590   1        
+ 591   1        if(count <= timer1) //5==0° 15==90°
+ 592   1        { 
+ 593   2          PWM = 1; 
+ 594   2        }
+ 595   1        else 
+ 596   1        { 
+ 597   2          PWM = 0; 
+ 598   2        }
+ 599   1        count++;
+ 600   1        if (count >= 200) //T = 20ms清零
+ 601   1        { 
+ 602   2          count = 0; 
+ 603   2        }
+ 604   1        
+ 605   1      /********寻迹调速*如果不要*可删***/
+ 606   1          if(count_L <= compare_L) //5==0° 15==90°
+ 607   1        { 
+ 608   2          PWM1 = 1; 
+ 609   2        }
+ 610   1        else 
+ 611   1        { 
+ 612   2          PWM1 = 0; 
+C51 COMPILER V9.57.0.0   C51_TEST                                                          06/10/2024 22:26:36 PAGE 11  
+
+ 613   2        }
+ 614   1        count_L++;
+ 615   1        if (count_L >= 200) //T = 20ms清零
+ 616   1        { 
+ 617   2          count_L = 0; 
+ 618   2        }
+ 619   1        
+ 620   1        
+ 621   1            if(count_R <= compare_R) //5==0° 15==90°
+ 622   1        { 
+ 623   2          PWM2 = 1; 
+ 624   2        }
+ 625   1        else 
+ 626   1        { 
+ 627   2          PWM2 = 0; 
+ 628   2        }
+ 629   1        count_R++;
+ 630   1        if (count_R >= 200) //T = 20ms清零
+ 631   1        { 
+ 632   2          count_R = 0; 
+ 633   2        }
+ 634   1      /********寻迹调速*如果不要*可删 ***/
+ 635   1        
+ 636   1        
+ 637   1        
+ 638   1        TR0 = 1; //开启T0
+ 639   1      
+ 640   1      }
+ 641          
+ 642          
+ 643          
+ 644          /***调速函数***/
+ 645          void go(int compare_left,int compare_right)//设置占空比
+ 646          {
+ 647   1         compare_L=compare_left;
+ 648   1         compare_R=compare_right;
+ 649   1         IN1 = 1; 
+ 650   1         IN2 = 0;
+ 651   1         IN3 = 0; 
+ 652   1         IN4 = 1;
+ 653   1      }
+ 654          /****调速函数****/
+ 655          
+ 656          
+ 657          
+ 658          void main()
+ 659          {
+ 660   1        Timer0_Init();
+ 661   1        while(1)
+ 662   1        {
+ 663   2          
+ 664   2          timer1 =5;//舵机恢复到0°的位置
+ 665   2          count=0;//让定时器重新计数
+ 666   2          delay1s();
+ 667   2          timer1 =15;//舵机旋转90°
+ 668   2          count=0;
+ 669   2          delay1s();
+ 670   2      /*****调速函数 不要可删****/
+ 671   2          go(70,180);
+ 672   2      /*****调速函数 不要可删****/
+ 673   2        }
+ 674   1      }
+C51 COMPILER V9.57.0.0   C51_TEST                                                          06/10/2024 22:26:36 PAGE 12  
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    171    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
